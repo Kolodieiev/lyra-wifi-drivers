@@ -4,7 +4,10 @@ Luckfox Lyra - плата для розробки на базі процесор
 На платі відсутній модуль WiFi, але виведено роз'єм для підключення USB-пристроїв, до якого можна підключити USB-WiFi-адаптер.
 В цьому репозиторії знаходяться бінарні файли драйверів та прошивок для чіпів деяких WiFi-адаптерів. В стандартній ОС з сайту виробника ці драйвери відсутні, а в драйварах, що постачаються в наборі з SDK є проблеми з сумісністю.
 
-Вихідні коди драйверів взято з репозиторіїв користувача: https://github.com/lwfinger
+Вихідні коди драйверів взято з репозиторіїв: 
+    https://github.com/lwfinger/rtl8188eu
+    https://github.com/lwfinger/rtl8723bu
+    https://github.com/kelebek333/rtl8188fu
 
 # Інструкція зі встановлення та налаштування
 
@@ -216,6 +219,11 @@ ATTR{serial}=="<серійний номер>"
     adb push rtl8723bu_bt.bin /lib/firmware/rtlwifi/
     adb push rtl8723bu_nic.bin /lib/firmware/rtlwifi/
     adb push rtl8723bu_wowlan.bin /lib/firmware/rtlwifi/
+
+Для 8188fu/ftv
+
+    adb push 8188fu.ko /lib/modules/6.1.99/extra
+    adb push rtl8188fufw.bin /lib/firmware/rtlwifi/
 
 ------------------
 
@@ -444,6 +452,13 @@ Cтворити маршрут:
         metric 110 
         # НЕ ДОДАВАТИ: wpa-driver. Використовує nl80211.
 
+    #rtl8188fu_ftv
+    auto wlx002e2d209097
+    iface wlx002e2d209097 inet dhcp
+        wpa-conf /etc/wpa_supplicant.conf
+        metric 120
+        # НЕ ДОДАВАТИ: wpa-driver. Використовує nl80211. 
+
     auto usb0
     iface usb0 inet static
         address 192.168.123.100
@@ -462,3 +477,17 @@ Cтворити маршрут:
 ------------------
 
 Деякі адаптери не стартують миттєво, та потребують певного часу для завантаження.
+
+------------------
+
+Нагадування для збірки інших драйверів.
+
+    make ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabihf- \
+        KSRC=/mnt/D/sbc/luckfox/lyra-sdk/kernel-6.1
+
+Для збірки драйвера, написаного під старіше ядро Linux.
+
+    EXTRA_CFLAGS += -Wno-error
+    EXTRA_CFLAGS += -Dcomplete_and_exit=kthread_complete_and_exit
+    EXTRA_CFLAGS += -Wno-unused-variable
+     

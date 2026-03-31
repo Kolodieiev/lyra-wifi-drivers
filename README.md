@@ -5,9 +5,12 @@ Luckfox Lyra - плата для розробки на базі процесор
 В цьому репозиторії знаходяться бінарні файли драйверів та прошивок для чіпів деяких WiFi-адаптерів. В стандартній ОС(Ubuntu) з сайту виробника ці драйвери відсутні, а в драйварах, що постачаються в наборі з SDK є проблеми з сумісністю.
 
 Вихідні коди драйверів взято з репозиторіїв: 
-    https://github.com/lwfinger/rtl8188eu
-    https://github.com/lwfinger/rtl8723bu
-    https://github.com/kelebek333/rtl8188fu
+
+https://github.com/lwfinger/rtl8188eu
+
+https://github.com/lwfinger/rtl8723bu
+
+https://github.com/kelebek333/rtl8188fu
 
 # Інструкція зі встановлення та налаштування
 
